@@ -11,11 +11,11 @@ public class SubjectiveLogicValue {
 	/**
 	 * The belief that the associated feature of agent is trusted
 	 */
-	double belief = 0;
+	private double belief = 0;
 	/**
 	 * The belief that the associated feature of agent is untrusted
 	 */
-	double disbelief = 0;
+	private double disbelief = 0;
 	/**
 	 * The amount of uncommitted belief
 	 */
@@ -39,5 +39,21 @@ public class SubjectiveLogicValue {
 	 */
 	public void setUncertainty(double uncertainty) {
 		this.uncertainty = uncertainty;
+	}
+
+	public double getBelief() {
+		return belief;
+	}
+
+	public void setBelief(double belief) {
+		this.belief = belief;
+	}
+
+	public double getDisbelief() {
+		return disbelief;
+	}
+
+	public void setDisbelief(double disbelief) {
+		this.disbelief = disbelief;
 	}
 }

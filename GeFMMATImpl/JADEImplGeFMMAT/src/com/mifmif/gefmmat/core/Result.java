@@ -12,6 +12,7 @@ import java.util.Map;
  */
 public class Result implements Serializable {
 	private Map<String, String> infos;
+	private Map<String, String> outputs;
 
 	/**
 	 * @return the infos
@@ -26,5 +27,13 @@ public class Result implements Serializable {
 	 */
 	public void setInfos(Map<String, String> infos) {
 		this.infos = infos;
+	}
+
+	public Map<String, String> getOutputs() {
+		return outputs;
+	}
+
+	public void setOutputs(Map<String, String> outputs) {
+		this.outputs = outputs;
 	}
 }

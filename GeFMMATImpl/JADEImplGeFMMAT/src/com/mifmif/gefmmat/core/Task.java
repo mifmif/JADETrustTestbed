@@ -4,6 +4,7 @@
 package com.mifmif.gefmmat.core;
 
 import java.io.Serializable;
+import java.util.Map;
 
 /**
  * 
@@ -17,8 +18,14 @@ import java.io.Serializable;
 abstract public class Task implements Serializable {
 
 	private static final long serialVersionUID = 20141220L;
+	private Map<String, String> inputs;
+
 	// a task will have specific requirements
-	private Proposal proposal;
+	private Proposal proposal;// this is the proposal of the choosed agent to
+								// process this task , at the end the initiator
+								// agent will compare this proposal with the
+								// final result to evaluate the agent
+								// trustworthiness
 	private Result result;
 
 	/**
@@ -49,5 +56,13 @@ abstract public class Task implements Serializable {
 	 */
 	public void setResult(Result result) {
 		this.result = result;
+	}
+
+	public Map<String, String> getInputs() {
+		return inputs;
+	}
+
+	public void setInputs(Map<String, String> inputs) {
+		this.inputs = inputs;
 	}
 }

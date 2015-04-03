@@ -23,6 +23,10 @@ import java.io.IOException;
  *
  */
 public abstract class TaskHandler extends CyclicBehaviour {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5177380340115631579L;
 	private Agent ownerAgent;
 	Logger logger = (Logger) Logger.getGlobal();
 

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.mifmif.gefmmat.examples.students;
+package com.mifmif.gefmmat.testbed.student;
 
 import jade.core.AID;
 import jade.lang.acl.ACLMessage;
@@ -10,7 +10,6 @@ import java.util.Vector;
 
 import com.mifmif.gefmmat.core.Agent;
 import com.mifmif.gefmmat.core.AgentExperience;
-import com.mifmif.gefmmat.core.Task;
 
 /**
  * @author y.mifrah
@@ -18,12 +17,7 @@ import com.mifmif.gefmmat.core.Task;
  */
 public class Student extends Agent {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.mifmif.gefmmat.core.Agent#prepareAgentExperience()
-	 */
-	public AgentExperience prepareAgentExperience() {
+ public AgentExperience prepareAgentExperience() {
 		// TODO Auto-generated method stub
 		return null;
 	}

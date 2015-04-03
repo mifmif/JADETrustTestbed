@@ -11,10 +11,11 @@ import jade.proto.ContractNetInitiator;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 /**
- * Abstract representation of an agent in GeFMMAT Framework, this agent will use
+ * An abstract representation of agent in GeFMMAT Framework, this agent will use
  * it's trust knowledge about their partners while delegating tasks.
  * 
  * @author y.mifrah
@@ -26,7 +27,7 @@ public abstract class Agent extends jade.core.Agent {
 	private List<Feature> features;
 	List<Group> groups;
 	private List<AgentExperience> agentExperiences;
-	List<Service> services;
+	private Map<String, Service> servicesNameServices;
 	private long responseTimeout = 5000;
 
 	/**
@@ -166,5 +167,13 @@ public abstract class Agent extends jade.core.Agent {
 	 */
 	public void setResponseTimeout(long responseTimeout) {
 		this.responseTimeout = responseTimeout;
+	}
+
+	public Map<String, Service> getServicesNameServices() {
+		return servicesNameServices;
+	}
+
+	public void setServicesNameServices(Map<String, Service> servicesNameServices) {
+		this.servicesNameServices = servicesNameServices;
 	}
 }

@@ -9,7 +9,7 @@ import com.mifmif.gefmmat.core.trust.TrustKnowledge;
 import com.mifmif.gefmmat.core.trust.TrustMetric;
 
 /**
- * THis class present directional information that characterizes the
+ * This class present directional information that characterizes the
  * relationship between a trustor and a trustee agent
  * 
  * @author y.mifrah
