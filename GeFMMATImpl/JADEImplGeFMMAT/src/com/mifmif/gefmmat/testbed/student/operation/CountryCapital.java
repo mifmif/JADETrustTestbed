@@ -1,6 +1,20 @@
 /**
- * 
+ * Copyright 2015 y.mifrah
+ *
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
+
 package com.mifmif.gefmmat.testbed.student.operation;
 
 import java.util.HashMap;
@@ -11,6 +25,9 @@ import com.mifmif.gefmmat.core.Service;
 import com.mifmif.gefmmat.core.Task;
 import com.mifmif.gefmmat.testbed.student.exception.InvalidInputParameterException;
 import com.mifmif.gefmmat.testbed.student.exception.TaskProcessingException;
+import com.mifmif.gefmmat.testbed.student.operation.task.CountryCapitalTask;
+import com.mifmif.gefmmat.testbed.student.operation.task.CountryCapitalTask.CountryCapitalResult;
+import com.mifmif.gefmmat.testbed.student.operation.task.SpeedTask.SpeedResult;
 
 /**
  * @author y.mifrah
@@ -18,22 +35,30 @@ import com.mifmif.gefmmat.testbed.student.exception.TaskProcessingException;
  */
 public class CountryCapital extends Service {
 	protected static Map<String, String> countryCapital = new HashMap<>();
+	static int countCountries;
 	String country, capitalResult;
+
+	public CountryCapital() {
+		setName("countryCapital");
+	}
 
 	@Override
 	protected void prepareInputs(Task task) throws InvalidInputParameterException {
-		Map<String, String> inputs = task.getInputs();
-		country = inputs.get("country");
-		if (country == null) {
+		try {
+			country = ((CountryCapitalTask) task).getCountry();
+			if (country == null) {
+				throw new InvalidInputParameterException();
+			}
+		} catch (Exception exception) {
 			throw new InvalidInputParameterException();
 		}
 	}
 
 	@Override
 	protected Result processTask(Task task) throws TaskProcessingException {
-		Result result = new Result();
+		CountryCapitalResult result = new CountryCapitalResult();
 		capitalResult = countryCapital.get(country);
-		result.getOutputs().put("capitalResult", capitalResult);
+		result.setCapitalResult(capitalResult);
 		return result;
 	}
 
@@ -285,6 +310,25 @@ public class CountryCapital extends Service {
 		countryCapital.put("Yemen", "Sanaá");
 		countryCapital.put("Zambia", "Lusaka");
 		countryCapital.put("Zimbabwe", "Harare");
+		countCountries = countryCapital.size();
+	}
+
+	public static String getRandomCountry() {
+		int index = (int) (Math.random() * countCountries);
+		return (String) countryCapital.keySet().toArray()[index];
+	}
+
+	@Override
+	public boolean isResultTaskValid(Task task) {
+		try {
+			CountryCapitalResult curResult = (CountryCapitalResult) task.getResult();
+			CountryCapitalResult validResult = (CountryCapitalResult) execute(task);
+			return curResult.getCapitalResultResult().equals(validResult.getCapitalResultResult());
+		} catch (Exception exception) {
+			exception.printStackTrace();
+		}
+
+		return false;
 	}
 
 }
