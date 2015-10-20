@@ -49,7 +49,7 @@ public class Student extends Agent {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static final long TASK_GENERATOR_PERIOD = (long) (1000 * 0.02);// ms
+	private static final long TASK_GENERATOR_PERIOD = (long) (1000 * 2);// ms
 
 	public Student() {
 		StudentStatusRegister.addStudent(this);
@@ -210,6 +210,11 @@ public class Student extends Agent {
 			return proposal;
 		}
 
+		/**
+		 * a honest agent perform tasks with a probability of 95% of success
+		 * 
+		 * @see com.mifmif.gefmmat.core.TaskHandler#performTask(com.mifmif.gefmmat.core.Task)
+		 */
 		@Override
 		public Result performTask(Task task) {
 			boolean possibleError = Math.random() > 0.95;

@@ -124,7 +124,8 @@ public abstract class Agent extends jade.core.Agent {
 
 				protected void handleAllResponses(Vector responses, Vector acceptances) {
 					if (responses.size() < neighborsNumber) {
-						System.out.println("Timeout expired : missing " + (neighborsNumber - responses.size()) + " responses");
+					//	System.out.println("Timeout expired : missing " + (neighborsNumber - responses.size()) + " responses");
+					//TODO
 					}
 					Enumeration elmt = responses.elements();
 					while (elmt.hasMoreElements()) {

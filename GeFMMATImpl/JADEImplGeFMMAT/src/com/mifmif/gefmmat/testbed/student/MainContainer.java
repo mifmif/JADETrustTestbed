@@ -50,6 +50,12 @@ import com.mifmif.gefmmat.util.SubjectiveLogicValue;
  */
 public class MainContainer {
 	private static ContainerController myContainer;
+	static int honestStudentNumber = 3;
+	static int camouflageStudentNumber = 1;
+	static int randomStudentNumber = 0;
+	static int constantDishonestStudentNumber = 0;
+	static int whitewashingStudentNumber = 0;
+	static int taskGeneratorStudentNumber = 1;
 
 	public static void main(String[] args) throws StaleProxyException {
 		jade.core.Runtime myRuntime = jade.core.Runtime.instance();
@@ -74,12 +80,6 @@ public class MainContainer {
 		TrustMetric trustMetricForgiveFactor = new TrustMetric(new ForgiveFactor(0.6));
 		TrustMetric trustMetricNoModel = new TrustMetric(new NoModel());
 		TrustMetric[] metrics = new TrustMetric[] { trustMetricBRS, trustMetricForgiveFactor, trustMetricJonker, trustMetricNoModel };
-		int honestStudentNumber = 5;
-		int camouflageStudentNumber = 5;
-		int randomStudentNumber = 5;
-		int constantDishonestStudentNumber = 5;
-		int whitewashingStudentNumber = 5;
-		int taskGeneratorStudentNumber = 4;
 		Object[] agentDelegatorArguments = new Object[] { null, hasTaskHandlerBehaviour, hasTaskGeneratorBehaviour };
 		// Creating Honest students
 		Object[] agentHandlerArguments = new Object[] { services, true };

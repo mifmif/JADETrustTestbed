@@ -50,6 +50,10 @@ public class WhitewashingDishonestStudent extends Student {
 	}
 
 	class IdentityUpdater extends TickerBehaviour {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
 		WhitewashingDishonestStudent student;
 
 		public IdentityUpdater(WhitewashingDishonestStudent student, long period_ms) {
