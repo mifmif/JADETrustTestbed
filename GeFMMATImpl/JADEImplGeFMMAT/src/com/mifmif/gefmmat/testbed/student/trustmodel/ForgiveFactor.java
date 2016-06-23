@@ -47,11 +47,8 @@ public class ForgiveFactor implements ITrustMetric {
 		int nbrExp = trustKnowledge.getAgentExperience().getProcessedTasks().size();
 		double resultOK = 0;
 		double resultNOK = 0;
-
 		for (int i = 0; i < nbrExp; ++i) {
-
 			Task passedTask = trustKnowledge.getAgentExperience().getProcessedTasks().get(i);
-
 			if (passedTask.getResult().isValid()) {
 				resultOK += Math.pow(forgivenessFactor, nbrExp - i);
 			} else {

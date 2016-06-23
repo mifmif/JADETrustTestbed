@@ -49,7 +49,7 @@ public class Student extends Agent {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static final long TASK_GENERATOR_PERIOD = (long) (1000 * 2);// ms
+	private static final long TASK_GENERATOR_PERIOD = (long) (10 * 2);// ms
 
 	public Student() {
 		StudentStatusRegister.addStudent(this);

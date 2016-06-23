@@ -50,12 +50,12 @@ import com.mifmif.gefmmat.util.SubjectiveLogicValue;
  */
 public class MainContainer {
 	private static ContainerController myContainer;
-	static int honestStudentNumber = 3;
-	static int camouflageStudentNumber = 1;
-	static int randomStudentNumber = 0;
-	static int constantDishonestStudentNumber = 0;
-	static int whitewashingStudentNumber = 0;
-	static int taskGeneratorStudentNumber = 1;
+	static int honestStudentNumber = 5;
+	static int camouflageStudentNumber = 5;
+	static int randomStudentNumber = 5;
+	static int constantDishonestStudentNumber = 5;
+	static int whitewashingStudentNumber = 5;
+	static int taskGeneratorStudentNumber = 4;
 
 	public static void main(String[] args) throws StaleProxyException {
 		jade.core.Runtime myRuntime = jade.core.Runtime.instance();
