@@ -2,17 +2,14 @@
  * Copyright 2015 y.mifrah
  *
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions
+ * and limitations under the License.
  */
 
 package com.mifmif.gefmmat.core;
@@ -34,7 +31,8 @@ import com.mifmif.gefmmat.core.util.Utils;
 import com.mifmif.gefmmat.testbed.student.ResultValidator;
 
 /**
- * An abstract representation of agent in GeFMMAT Framework, this agent will use it's trust knowledge about their partners while delegating tasks.
+ * An abstract representation of agent in GeFMMAT Framework, this agent will use it's trust knowledge about their partners while delegating
+ * tasks.
  * 
  * @author y.mifrah
  *
@@ -124,8 +122,8 @@ public abstract class Agent extends jade.core.Agent {
 
 				protected void handleAllResponses(Vector responses, Vector acceptances) {
 					if (responses.size() < neighborsNumber) {
-					//	System.out.println("Timeout expired : missing " + (neighborsNumber - responses.size()) + " responses");
-					//TODO
+						// System.out.println("Timeout expired : missing " + (neighborsNumber - responses.size()) + " responses");
+						// TODO
 					}
 					Enumeration elmt = responses.elements();
 					while (elmt.hasMoreElements()) {
@@ -195,7 +193,8 @@ public abstract class Agent extends jade.core.Agent {
 					continue;
 				}
 
-				boolean isBetterThanCurrentBestProposal = getTrustMetric().compareAgentExperience(agentExperience, agentExperienceOfBestProposal, taskFeatures) > 0;
+				boolean isBetterThanCurrentBestProposal = getTrustMetric().compareAgentExperience(agentExperience,
+								agentExperienceOfBestProposal, taskFeatures) > 0;
 				// Proposal proposal = (Proposal) message.getContentObject();
 				// int price =
 				// Integer.parseInt(proposal.getInfos().get("price"));

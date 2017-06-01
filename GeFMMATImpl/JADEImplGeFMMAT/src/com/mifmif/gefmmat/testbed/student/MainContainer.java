@@ -2,17 +2,14 @@
  * Copyright 2015 y.mifrah
  *
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions
+ * and limitations under the License.
  */
 
 package com.mifmif.gefmmat.testbed.student;
@@ -87,33 +84,37 @@ public class MainContainer {
 			// AgentController student =
 			// myContainer.createNewAgent("honestAgent" + i,
 			// "jade.tools.testagent.TestAgent", new Object[0]);
-			AgentController student = myContainer.createNewAgent("honestAgent_" + i, "com.mifmif.gefmmat.testbed.student.Student", agentHandlerArguments);
+			AgentController student = myContainer.createNewAgent("honestAgent_" + i, "com.mifmif.gefmmat.testbed.student.Student",
+							agentHandlerArguments);
 			student.start();
 		}
 		// Creating Camouflage students
 		for (int i = 0; i != camouflageStudentNumber; ++i) {
-			AgentController student = myContainer.createNewAgent("camouflageAgent_" + i, "com.mifmif.gefmmat.testbed.student.CamouflageDishonestStudent",
-					agentHandlerArguments);
+			AgentController student = myContainer.createNewAgent("camouflageAgent_" + i,
+							"com.mifmif.gefmmat.testbed.student.CamouflageDishonestStudent",
+							agentHandlerArguments);
 			student.start();
 		}
 		// Creating Random students
 		for (int i = 0; i != randomStudentNumber; ++i) {
-			AgentController student = myContainer.createNewAgent("RandomDishonestAgent_" + i, "com.mifmif.gefmmat.testbed.student.RandomDishonestStudent",
-					agentHandlerArguments);
+			AgentController student = myContainer.createNewAgent("RandomDishonestAgent_" + i,
+							"com.mifmif.gefmmat.testbed.student.RandomDishonestStudent",
+							agentHandlerArguments);
 			student.start();
 		}
 
 		// Creating ConstantDishonest students
 		for (int i = 0; i != constantDishonestStudentNumber; ++i) {
-			AgentController student = myContainer.createNewAgent("ConstantDishonestAgent_" + i, "com.mifmif.gefmmat.testbed.student.ConstantDishonestStudent",
-					agentHandlerArguments);
+			AgentController student = myContainer.createNewAgent("ConstantDishonestAgent_" + i,
+							"com.mifmif.gefmmat.testbed.student.ConstantDishonestStudent",
+							agentHandlerArguments);
 			student.start();
 		}
 
 		// Creating WhitewashingDishonestStudent students
 		for (int i = 0; i != whitewashingStudentNumber; ++i) {
 			AgentController student = myContainer.createNewAgent("WhitewashingDishonestStudent_" + i,
-					"com.mifmif.gefmmat.testbed.student.WhitewashingDishonestStudent", agentHandlerArguments);
+							"com.mifmif.gefmmat.testbed.student.WhitewashingDishonestStudent", agentHandlerArguments);
 			student.start();
 		}
 		try {
@@ -125,8 +126,9 @@ public class MainContainer {
 		// Creating taskGenerator students
 		for (int i = 0; i != taskGeneratorStudentNumber; ++i) {
 			agentDelegatorArguments = new Object[] { null, hasTaskHandlerBehaviour, hasTaskGeneratorBehaviour, metrics[i] };
-			AgentController taskGeneratorStudent = myContainer.createNewAgent("taskGeneratorStudent_" + i + "_" + metrics[i].getTrustMetricName(),
-					"com.mifmif.gefmmat.testbed.student.Student", agentDelegatorArguments);
+			AgentController taskGeneratorStudent = myContainer.createNewAgent(
+							"taskGeneratorStudent_" + i + "_" + metrics[i].getTrustMetricName(),
+							"com.mifmif.gefmmat.testbed.student.Student", agentDelegatorArguments);
 			taskGeneratorStudent.start();
 		}
 		new Thread(new TestbedViewer()).start();
@@ -191,17 +193,21 @@ public class MainContainer {
 					break;
 				case 2:
 
-					Map<String, Entry<Integer, SubjectiveLogicValue>> meanEvaluations = prepareMeanEvaluations(student.getAgentExperiences());
+					Map<String, Entry<Integer, SubjectiveLogicValue>> meanEvaluations = prepareMeanEvaluations(student
+									.getAgentExperiences());
 					int[] stasicfactionAndDesatisfaction = countStasicfactionAndDesatisfaction(student.getAgentExperiences());
-					System.out.println("trustor agent : " + student.getAID().getName() + " [" + getTotalTasksNbr(student.getAgentExperiences()) + "] , MCC = "
-							+ Measure.calculateMCC(student.getAgentExperiences()) + "     satisfaction : " + stasicfactionAndDesatisfaction[0]
-							+ " desatisfaction : " + stasicfactionAndDesatisfaction[1]);
+					System.out.println("trustor agent : " + student.getAID().getName() + " ["
+									+ getTotalTasksNbr(student.getAgentExperiences()) + "] , MCC = "
+									+ Measure.calculateMCC(student.getAgentExperiences()) + "     satisfaction : "
+									+ stasicfactionAndDesatisfaction[0]
+									+ " desatisfaction : " + stasicfactionAndDesatisfaction[1]);
 					for (Entry<String, Entry<Integer, SubjectiveLogicValue>> categoEval : meanEvaluations.entrySet()) {
 						String catego = categoEval.getKey();
 						SubjectiveLogicValue eval = categoEval.getValue().getValue();
 						int selectionTime = categoEval.getValue().getKey();
-						System.out.printf("		" + getStringWithSpace(catego + "[" + selectionTime + "]") + ":	%.3f    %.3f    %.3f    \n", eval.getBelief(),
-								eval.getDisbelief(), eval.getUncertainty());
+						System.out.printf("		" + getStringWithSpace(catego + "[" + selectionTime + "]") + ":	%.3f    %.3f    %.3f    \n",
+										eval.getBelief(),
+										eval.getDisbelief(), eval.getUncertainty());
 					}
 					break;
 
@@ -230,8 +236,8 @@ public class MainContainer {
 		}
 
 		/**
-		 * this method return a map that show for each category the mean evaluation of trustworthiness , and the number of time agens from this category was
-		 * selected
+		 * this method return a map that show for each category the mean evaluation of trustworthiness , and the number of time agens from
+		 * this category was selected
 		 * 
 		 * @param agentExperiences
 		 * @return

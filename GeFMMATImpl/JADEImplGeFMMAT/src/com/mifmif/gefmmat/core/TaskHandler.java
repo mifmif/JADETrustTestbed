@@ -2,17 +2,14 @@
  * Copyright 2015 y.mifrah
  *
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions
+ * and limitations under the License.
  */
 
 package com.mifmif.gefmmat.core;
@@ -43,8 +40,8 @@ public abstract class TaskHandler extends OneShotBehaviour {
 	private Agent ownerAgent;
 	Logger logger = (Logger) Logger.getGlobal();
 	/**
-	 * this value present whether the agent will decide to handle the cfp or not , if equal to 1 then it will always handle the cfp ,if O then it will never
-	 * handle the cfp
+	 * this value present whether the agent will decide to handle the cfp or not , if equal to 1 then it will always handle the cfp ,if O
+	 * then it will never handle the cfp
 	 */
 	private double probabilityToHandleProposal = 0.85;
 
@@ -59,7 +56,7 @@ public abstract class TaskHandler extends OneShotBehaviour {
 	public void action() {
 		// System.out.println("call taskHandlerAction");
 		MessageTemplate template = MessageTemplate.and(MessageTemplate.MatchProtocol(FIPANames.InteractionProtocol.FIPA_CONTRACT_NET),
-				MessageTemplate.MatchPerformative(ACLMessage.CFP));
+						MessageTemplate.MatchPerformative(ACLMessage.CFP));
 
 		getOwnerAgent().addBehaviour(new ContractNetResponder(getOwnerAgent(), template) {
 			Task task;

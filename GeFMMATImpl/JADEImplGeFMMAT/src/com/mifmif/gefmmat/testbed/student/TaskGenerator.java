@@ -26,7 +26,8 @@ public class TaskGenerator extends TickerBehaviour {
 
 	private Task generateTask() {
 		Task task = null;
-		String[] tasksName = { "addition", "arithmeticOp", "calculateEnergy", "calculateSpeed", "countryCapital", "countryContinent", "division",
+		String[] tasksName = { "addition", "arithmeticOp", "calculateEnergy", "calculateSpeed", "countryCapital", "countryContinent",
+				"division",
 				"multiplication", "substraction", "stringMatchPattern" };
 		int randomIndex = (int) (Math.random() * tasksName.length);
 		task = TaskFactory.getTask(tasksName[randomIndex]);

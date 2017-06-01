@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * any student that join the system register itself using this class, this class
- * is used to lookup for status of each of registered students
+ * any student that join the system register itself using this class, this class is used to lookup for status of each of registered students
  * 
  * @author y.mifrah
  *

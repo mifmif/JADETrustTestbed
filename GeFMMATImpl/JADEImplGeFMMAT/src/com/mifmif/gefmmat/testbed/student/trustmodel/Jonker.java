@@ -7,9 +7,9 @@ import com.mifmif.gefmmat.core.trust.ITrustMetric;
 import com.mifmif.gefmmat.core.trust.TrustKnowledge;
 
 /**
- * Jonker trust model use the last two experience with agent and decide whether if the partner is trustworthy/untrustworthy/indifferent if the two passed
- * experience are positive , then it's a trusted agent, if they are negative experiences , then it's untrusted, is one is positive and other is negative then
- * it's Indifferent
+ * Jonker trust model use the last two experience with agent and decide whether if the partner is trustworthy/untrustworthy/indifferent if
+ * the two passed experience are positive , then it's a trusted agent, if they are negative experiences , then it's untrusted, is one is
+ * positive and other is negative then it's Indifferent
  * 
  * @author y.mifrah
  *

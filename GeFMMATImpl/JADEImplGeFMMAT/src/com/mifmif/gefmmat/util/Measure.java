@@ -35,7 +35,7 @@ public class Measure {
 			SubjectiveLogicValue featureEvaluation = experience.getMeanFeatureEvaluation();
 			if (featureEvaluation.getBelief() > 0) {
 				if (featureEvaluation.getDisbelief() == 0 || featureEvaluation.getBelief() / featureEvaluation.getDisbelief() > 2
-						&& featureEvaluation.getUncertainty() <= 0.5) {// in this case the agent is considered trustworthy
+								&& featureEvaluation.getUncertainty() <= 0.5) {// in this case the agent is considered trustworthy
 					if (isTrusteeHonestAgentName(experience)) {
 						tp++;
 					} else {

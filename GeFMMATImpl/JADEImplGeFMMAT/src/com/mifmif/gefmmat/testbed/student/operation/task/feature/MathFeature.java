@@ -10,6 +10,7 @@ public class MathFeature extends Feature {
 			instance = new MathFeature();
 		return instance;
 	}
+
 	public MathFeature() {
 		setName("Math");
 	}
