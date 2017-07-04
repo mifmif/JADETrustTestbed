@@ -36,7 +36,7 @@ public class AgentExperience {
 	private AID trustorAgent;
 	private AID trusteeAgent;
 	private List<Task> processedTasks = Collections.synchronizedList(new ArrayList<Task>());
-
+	
 	public AgentExperience() {
 		trustKnowledge = new TrustKnowledge(this);
 	}

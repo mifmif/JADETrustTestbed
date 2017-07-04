@@ -116,5 +116,6 @@ abstract public class Task implements Serializable {
 
 	public void setTaskOrder(int taskOrder) {
 		this.taskOrder = taskOrder;
+
 	}
 }

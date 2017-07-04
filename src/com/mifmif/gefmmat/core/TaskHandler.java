@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 /**
+<<<<<<< HEAD
  * Class that will catch the call for proposals and handle communication with
  * the initiator agent.
  * 
