@@ -31,9 +31,6 @@ import com.mifmif.gefmmat.core.Task;
 import com.mifmif.gefmmat.core.TaskHandler;
 import com.mifmif.gefmmat.core.trust.TrustMetric;
 import com.mifmif.gefmmat.core.util.Utils;
-import com.mifmif.gefmmat.testbed.student.trustmodel.BRS;
-import com.mifmif.gefmmat.testbed.student.trustmodel.ForgiveFactor;
-import com.mifmif.gefmmat.testbed.student.trustmodel.Jonker;
 import com.mifmif.gefmmat.testbed.student.trustmodel.NoModel;
 
 /**
@@ -46,7 +43,9 @@ public class Student extends Agent {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static final long TASK_GENERATOR_PERIOD = (long) (10 * 2);// ms
+	private static final long TASK_GENERATOR_PERIOD = (long) (1 * 2);// ms
+	private int numberOfTasks;
+	private TaskGenerator taskGenerator;
 
 	public Student() {
 		StudentStatusRegister.addStudent(this);
@@ -88,12 +87,13 @@ public class Student extends Agent {
 	}
 
 	/**
-	 * the 3ed parameter that represent if the agent has a task generator Behavior
+	 * the 3ed parameter that represent if the agent has a task generator
+	 * Behavior
 	 * 
 	 * @return
 	 */
 	public boolean hasTaskGeneratorBahaviour() {
-		if (getArguments().length < 3)
+		if (getArguments() == null || getArguments().length < 3)
 			return false;
 		boolean hasTaskGenerator = (boolean) getArguments()[2];
 		return hasTaskGenerator;
@@ -108,7 +108,8 @@ public class Student extends Agent {
 		}
 		if (hasTaskGeneratorBahaviour) {
 			System.out.println("add taskGeneratorBehaviour to " + getAID().getName());
-			addBehaviour(new TaskGenerator(this, TASK_GENERATOR_PERIOD, 500/* TODO use argument to pass this value */));
+			setTaskGenerator(new TaskGenerator(this, TASK_GENERATOR_PERIOD, getNumberOfTasks()));
+			addBehaviour(getTaskGenerator());
 			initializeTrustMetric();
 		}
 		super.setup();
@@ -128,13 +129,34 @@ public class Student extends Agent {
 	}
 
 	/**
-	 * the build method that return a builderStudent instance to construct a class instance
+	 * the build method that return a builderStudent instance to construct a
+	 * class instance
 	 * 
 	 * @param studentType
 	 * @return
 	 */
 	public static StudentBuilder builder(StudentType studentType) {
 		return new StudentBuilder(studentType);
+	}
+
+	public int getNumberOfTasks() {
+		if (getArguments().length < 5)
+			return 500;
+		int numberOfTasks = (int) getArguments()[4];
+		return numberOfTasks;
+
+	}
+
+	public void setNumberOfTasks(int numberOfTasks) {
+		this.numberOfTasks = numberOfTasks;
+	}
+
+	public TaskGenerator getTaskGenerator() {
+		return taskGenerator;
+	}
+
+	public void setTaskGenerator(TaskGenerator taskGenerator) {
+		this.taskGenerator = taskGenerator;
 	}
 
 	/**

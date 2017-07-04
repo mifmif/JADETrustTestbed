@@ -17,6 +17,7 @@ package com.mifmif.gefmmat.core;
 import jade.core.AID;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.mifmif.gefmmat.core.trust.TrustKnowledge;
@@ -34,7 +35,7 @@ public class AgentExperience {
 	private TrustMetric trustMetric;
 	private AID trustorAgent;
 	private AID trusteeAgent;
-	private List<Task> processedTasks = new ArrayList<Task>();
+	private List<Task> processedTasks = Collections.synchronizedList(new ArrayList<Task>());
 
 	public AgentExperience() {
 		trustKnowledge = new TrustKnowledge(this);

@@ -29,6 +29,7 @@ import java.util.Map;
  *
  */
 abstract public class Task implements Serializable {
+	private int taskOrder;
 	private List<Feature> features = new ArrayList<Feature>();
 	private static final long serialVersionUID = 20141220L;
 	private Map<String, String> inputs = new HashMap<String, String>();// a task
@@ -107,5 +108,13 @@ abstract public class Task implements Serializable {
 
 	protected void addFeature(Feature feature) {
 		features.add(feature);
+	}
+
+	public int getTaskOrder() {
+		return taskOrder;
+	}
+
+	public void setTaskOrder(int taskOrder) {
+		this.taskOrder = taskOrder;
 	}
 }

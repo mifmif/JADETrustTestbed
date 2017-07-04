@@ -46,15 +46,27 @@ import com.mifmif.gefmmat.util.SubjectiveLogicValue;
  *
  */
 public class MainContainer {
+	private static final double FIRGIVE_FACTOR_VAL = 0.6;
 	private static ContainerController myContainer;
-	static int honestStudentNumber = 5;
-	static int camouflageStudentNumber = 5;
-	static int randomStudentNumber = 5;
-	static int constantDishonestStudentNumber = 5;
-	static int whitewashingStudentNumber = 5;
-	static int taskGeneratorStudentNumber = 4;
+	private int honestStudentNumber = 5;
+	private int camouflageStudentNumber = 5;
+	private int randomStudentNumber = 5;
+	private int constantDishonestStudentNumber = 5;
+	private int whitewashingStudentNumber = 5;
+	private int taskGeneratorStudentNumber = 1;
+	private int numberOfTasks = 1;
+	private TrustMetric[] metrics;
+	private Service[] services;
+	private boolean hasTaskHandlerBehaviour = false;
+	private boolean hasTaskGeneratorBehaviour = true;
+	private Object[] agentDelegatorArguments;
+	private Object[] agentHandlerArguments;
 
-	public static void main(String[] args) throws StaleProxyException {
+	public MainContainer() {
+		init();
+	}
+
+	private void init() {
 		jade.core.Runtime myRuntime = jade.core.Runtime.instance();
 
 		// prepare the settings for the platform that we're going to connect to
@@ -62,76 +74,102 @@ public class MainContainer {
 		myProfile.setParameter(Profile.MAIN_HOST, "localhost");
 		myProfile.setParameter(Profile.MAIN_PORT, "1099");
 
-		// create the agent container
-		ContainerController myContainer = myRuntime.createMainContainer(myProfile);
+		myContainer = myRuntime.createMainContainer(myProfile);
 
 		System.out.println("containers created");
 		System.out.println("Launching the rma agent on the main container ...");
-		AgentController rma = myContainer.createNewAgent("rma", "jade.tools.rma.rma", new Object[0]);
-		rma.start();
-		Service[] services = OperationFactory.getAllServices();
-		boolean hasTaskHandlerBehaviour = false;
-		boolean hasTaskGeneratorBehaviour = true;
-		TrustMetric trustMetricBRS = new TrustMetric(new BRS());
-		TrustMetric trustMetricJonker = new TrustMetric(new Jonker());
-		TrustMetric trustMetricForgiveFactor = new TrustMetric(new ForgiveFactor(0.6));
-		TrustMetric trustMetricNoModel = new TrustMetric(new NoModel());
-		TrustMetric[] metrics = new TrustMetric[] { trustMetricBRS, trustMetricForgiveFactor, trustMetricJonker, trustMetricNoModel };
-		Object[] agentDelegatorArguments = new Object[] { null, hasTaskHandlerBehaviour, hasTaskGeneratorBehaviour };
-		// Creating Honest students
-		Object[] agentHandlerArguments = new Object[] { services, true };
-		for (int i = 0; i != honestStudentNumber; ++i) {
-			// AgentController student =
-			// myContainer.createNewAgent("honestAgent" + i,
-			// "jade.tools.testagent.TestAgent", new Object[0]);
-			AgentController student = myContainer.createNewAgent("honestAgent_" + i, "com.mifmif.gefmmat.testbed.student.Student",
-							agentHandlerArguments);
-			student.start();
-		}
-		// Creating Camouflage students
-		for (int i = 0; i != camouflageStudentNumber; ++i) {
-			AgentController student = myContainer.createNewAgent("camouflageAgent_" + i,
-							"com.mifmif.gefmmat.testbed.student.CamouflageDishonestStudent",
-							agentHandlerArguments);
-			student.start();
-		}
-		// Creating Random students
-		for (int i = 0; i != randomStudentNumber; ++i) {
-			AgentController student = myContainer.createNewAgent("RandomDishonestAgent_" + i,
-							"com.mifmif.gefmmat.testbed.student.RandomDishonestStudent",
-							agentHandlerArguments);
-			student.start();
-		}
-
-		// Creating ConstantDishonest students
-		for (int i = 0; i != constantDishonestStudentNumber; ++i) {
-			AgentController student = myContainer.createNewAgent("ConstantDishonestAgent_" + i,
-							"com.mifmif.gefmmat.testbed.student.ConstantDishonestStudent",
-							agentHandlerArguments);
-			student.start();
-		}
-
-		// Creating WhitewashingDishonestStudent students
-		for (int i = 0; i != whitewashingStudentNumber; ++i) {
-			AgentController student = myContainer.createNewAgent("WhitewashingDishonestStudent_" + i,
-							"com.mifmif.gefmmat.testbed.student.WhitewashingDishonestStudent", agentHandlerArguments);
-			student.start();
-		}
+		AgentController rma;
 		try {
-			Thread.sleep(500);
-		} catch (InterruptedException e) {
+			rma = myContainer.createNewAgent("rma", "jade.tools.rma.rma", new Object[0]);
+			rma.start();
+		} catch (StaleProxyException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		// Creating taskGenerator students
-		for (int i = 0; i != taskGeneratorStudentNumber; ++i) {
-			agentDelegatorArguments = new Object[] { null, hasTaskHandlerBehaviour, hasTaskGeneratorBehaviour, metrics[i] };
-			AgentController taskGeneratorStudent = myContainer.createNewAgent(
-							"taskGeneratorStudent_" + i + "_" + metrics[i].getTrustMetricName(),
-							"com.mifmif.gefmmat.testbed.student.Student", agentDelegatorArguments);
-			taskGeneratorStudent.start();
+		initOperations();
+		initTrustMetrics();
+		prepareAgentsArgument();
+	}
+
+	private void initOperations() {
+		services = OperationFactory.getAllServices();
+	}
+
+	private void initTrustMetrics() {
+		TrustMetric trustMetricBRS = new TrustMetric(new BRS());
+		TrustMetric trustMetricJonker = new TrustMetric(new Jonker());
+		TrustMetric trustMetricForgiveFactor = new TrustMetric(new ForgiveFactor(FIRGIVE_FACTOR_VAL));
+		TrustMetric trustMetricNoModel = new TrustMetric(new NoModel());
+		metrics = new TrustMetric[] { trustMetricBRS, trustMetricForgiveFactor, trustMetricJonker, trustMetricNoModel };
+	}
+
+	private void prepareAgentsArgument() {
+		agentDelegatorArguments = new Object[] { null, isHasTaskHandlerBehaviour(), isHasTaskGeneratorBehaviour(), 500 };
+		agentHandlerArguments = new Object[] { services, true };
+	}
+
+	public static void main(String[] args) throws StaleProxyException {
+		MainContainer mainContainer = new MainContainer();
+		mainContainer.startTestCase();
+	}
+
+	public void startTestCase() {
+		try {
+			for (int i = 0; i != getHonestStudentNumber(); ++i) {
+				// AgentController student =
+				// myContainer.createNewAgent("honestAgent" + i,
+				// "jade.tools.testagent.TestAgent", new Object[0]);
+				AgentController student;
+				student = myContainer.createNewAgent("honestAgent_" + i, "com.mifmif.gefmmat.testbed.student.Student",
+						agentHandlerArguments);
+
+				student.start();
+			}
+			// Creating Camouflage students
+			for (int i = 0; i != getCamouflageStudentNumber(); ++i) {
+				AgentController student = myContainer.createNewAgent("camouflageAgent_" + i,
+						"com.mifmif.gefmmat.testbed.student.CamouflageDishonestStudent", agentHandlerArguments);
+				student.start();
+			}
+			// Creating Random students
+			for (int i = 0; i != getRandomStudentNumber(); ++i) {
+				AgentController student = myContainer.createNewAgent("RandomDishonestAgent_" + i,
+						"com.mifmif.gefmmat.testbed.student.RandomDishonestStudent", agentHandlerArguments);
+				student.start();
+			}
+
+			// Creating ConstantDishonest students
+			for (int i = 0; i != getConstantDishonestStudentNumber(); ++i) {
+				AgentController student = myContainer.createNewAgent("ConstantDishonestAgent_" + i,
+						"com.mifmif.gefmmat.testbed.student.ConstantDishonestStudent", agentHandlerArguments);
+				student.start();
+			}
+
+			// Creating WhitewashingDishonestStudent students
+			for (int i = 0; i != getWhitewashingStudentNumber(); ++i) {
+				AgentController student = myContainer.createNewAgent("WhitewashingDishonestStudent_" + i,
+						"com.mifmif.gefmmat.testbed.student.WhitewashingDishonestStudent", agentHandlerArguments);
+				student.start();
+			}
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			// Creating taskGenerator students
+			for (int i = 0; i != getTaskGeneratorStudentNumber(); ++i) {
+				agentDelegatorArguments = new Object[] { null, isHasTaskHandlerBehaviour(),
+						isHasTaskGeneratorBehaviour(), metrics[i], numberOfTasks };
+				AgentController taskGeneratorStudent = myContainer.createNewAgent("taskGeneratorStudent_" + i + "_"
+						+ metrics[i].getTrustMetricName(), "com.mifmif.gefmmat.testbed.student.Student",
+						agentDelegatorArguments);
+				taskGeneratorStudent.start();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		new Thread(new TestbedViewer()).start();
+		new Thread(new ConsoleViewer()).start();
 	}
 
 	public static ContainerController getContainer() {
@@ -142,7 +180,7 @@ public class MainContainer {
 		MainContainer.myContainer = myContainer;
 	}
 
-	static class TestbedViewer implements Runnable {
+	static class ConsoleViewer implements Runnable {
 
 		@Override
 		public void run() {
@@ -194,20 +232,21 @@ public class MainContainer {
 				case 2:
 
 					Map<String, Entry<Integer, SubjectiveLogicValue>> meanEvaluations = prepareMeanEvaluations(student
-									.getAgentExperiences());
-					int[] stasicfactionAndDesatisfaction = countStasicfactionAndDesatisfaction(student.getAgentExperiences());
+							.getAgentExperiences());
+					int[] stasicfactionAndDesatisfaction = countStasicfactionAndDesatisfaction(student
+							.getAgentExperiences());
 					System.out.println("trustor agent : " + student.getAID().getName() + " ["
-									+ getTotalTasksNbr(student.getAgentExperiences()) + "] , MCC = "
-									+ Measure.calculateMCC(student.getAgentExperiences()) + "     satisfaction : "
-									+ stasicfactionAndDesatisfaction[0]
-									+ " desatisfaction : " + stasicfactionAndDesatisfaction[1]);
+							+ getTotalTasksNbr(student.getAgentExperiences()) + "] , MCC = "
+							+ Measure.calculateMCC(student.getAgentExperiences()) + "     satisfaction : "
+							+ stasicfactionAndDesatisfaction[0] + " desatisfaction : "
+							+ stasicfactionAndDesatisfaction[1]);
 					for (Entry<String, Entry<Integer, SubjectiveLogicValue>> categoEval : meanEvaluations.entrySet()) {
 						String catego = categoEval.getKey();
 						SubjectiveLogicValue eval = categoEval.getValue().getValue();
 						int selectionTime = categoEval.getValue().getKey();
-						System.out.printf("		" + getStringWithSpace(catego + "[" + selectionTime + "]") + ":	%.3f    %.3f    %.3f    \n",
-										eval.getBelief(),
-										eval.getDisbelief(), eval.getUncertainty());
+						System.out.printf("		" + getStringWithSpace(catego + "[" + selectionTime + "]")
+								+ ":	%.3f    %.3f    %.3f    \n", eval.getBelief(), eval.getDisbelief(),
+								eval.getUncertainty());
 					}
 					break;
 
@@ -236,13 +275,19 @@ public class MainContainer {
 		}
 
 		/**
-		 * this method return a map that show for each category the mean evaluation of trustworthiness , and the number of time agens from
+		 * this method return a map that show for each category the mean
+		 * evaluation of trustworthiness , and the number of time agens from
 		 * this category was selected
 		 * 
 		 * @param agentExperiences
 		 * @return
 		 */
-		private Map<String, Entry<Integer, SubjectiveLogicValue>> prepareMeanEvaluations(List<AgentExperience> agentExperiences) {
+		/**
+		 * @param agentExperiences
+		 * @return
+		 */
+		private Map<String, Entry<Integer, SubjectiveLogicValue>> prepareMeanEvaluations(
+				List<AgentExperience> agentExperiences) {
 			Map<String, Entry<Integer, SubjectiveLogicValue>> meanEvaluationByCategory = new HashMap<String, Entry<Integer, SubjectiveLogicValue>>();
 			Map<String, List<AgentExperience>> agentExperienceByCategory = new HashMap<String, List<AgentExperience>>();
 			for (AgentExperience experience : agentExperiences) {
@@ -299,5 +344,78 @@ public class MainContainer {
 		satDesat[0] = satisfaction;
 		satDesat[1] = desatisfaction;
 		return satDesat;
+	}
+
+	public int getHonestStudentNumber() {
+		return honestStudentNumber;
+	}
+
+	public void setHonestStudentNumber(int honestStudentNumber) {
+		this.honestStudentNumber = honestStudentNumber;
+	}
+
+	public int getCamouflageStudentNumber() {
+		return camouflageStudentNumber;
+	}
+
+	public void setCamouflageStudentNumber(int camouflageStudentNumber) {
+		this.camouflageStudentNumber = camouflageStudentNumber;
+	}
+
+	public int getRandomStudentNumber() {
+		return randomStudentNumber;
+	}
+
+	public void setRandomStudentNumber(int randomStudentNumber) {
+		this.randomStudentNumber = randomStudentNumber;
+	}
+
+	public int getConstantDishonestStudentNumber() {
+		return constantDishonestStudentNumber;
+	}
+
+	public void setConstantDishonestStudentNumber(int constantDishonestStudentNumber) {
+		this.constantDishonestStudentNumber = constantDishonestStudentNumber;
+	}
+
+	public int getWhitewashingStudentNumber() {
+		return whitewashingStudentNumber;
+	}
+
+	public void setWhitewashingStudentNumber(int whitewashingStudentNumber) {
+		this.whitewashingStudentNumber = whitewashingStudentNumber;
+	}
+
+	public int getTaskGeneratorStudentNumber() {
+		return taskGeneratorStudentNumber;
+	}
+
+	public void setTaskGeneratorStudentNumber(int taskGeneratorStudentNumber) {
+		this.taskGeneratorStudentNumber = taskGeneratorStudentNumber;
+	}
+
+	public boolean isHasTaskHandlerBehaviour() {
+		return hasTaskHandlerBehaviour;
+	}
+
+	public void setHasTaskHandlerBehaviour(boolean hasTaskHandlerBehaviour) {
+		this.hasTaskHandlerBehaviour = hasTaskHandlerBehaviour;
+	}
+
+	public boolean isHasTaskGeneratorBehaviour() {
+		return hasTaskGeneratorBehaviour;
+	}
+
+	public void setHasTaskGeneratorBehaviour(boolean hasTaskGeneratorBehaviour) {
+		this.hasTaskGeneratorBehaviour = hasTaskGeneratorBehaviour;
+	}
+
+	public void setNumberOfTasks(int nbrTasks) {
+		this.numberOfTasks = nbrTasks;
+
+	}
+
+	public int getNumberOfTasks() {
+		return numberOfTasks;
 	}
 }
